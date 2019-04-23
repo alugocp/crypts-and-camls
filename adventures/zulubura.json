@@ -1,0 +1,50 @@
+{
+  "name":"Zulú Burá",
+  "messages":[
+    "You enter a small sandstone room.",
+    "There's a humidity in the air, but you're glad to finally be out of the desert sun.",
+    "Sand covers the floor, remnants of past storms that have plagued the region.",
+    "Two identical corridors lie ahead of you."
+  ],
+  "rooms":[
+    {
+      "name":"left hall",
+      "messages":[
+        "You walk down the left corridor as the sands give way to solid stone floors.",
+        "Light becomes more scarce so you light a torch to discover ancient glyphs adorning the walls."
+      ],
+      "rooms":[
+        {
+          "name":"burial room",
+          "messages":[
+            "Jars resembling strange beasts lay discarded by a large sarcophagus in the center of the room.",
+            "The entire room's ceiling is considerably lower than that of the entrance, and it smells of thousand-year-old decay.",
+            "The sarcophagus creaks open, and an ancient horror emerges from it to rend you to pieces."
+          ],
+          "enemies":[
+            {"name":"Arisen Mummy","health":6,"damage":2}
+          ],
+          "rooms":[
+            {
+              "name":"cursed altar",
+              "messages":[
+                "You leave the stench of death behind you as you crouch through the low doorway into the next room.",
+                "The room's ceiling hangs much higher than the last, and a black stone obelisk with crackling purple glyphs dominates the center of the space.",
+                "You're deep into the dungeon at this point, but with a faint wind you hear a booming voice call \"Who dares disturb my slumber?\"."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name":"right hall",
+      "messages":[
+        "You proceed through the right corridor when you're ambushed by a giant scarab beetle."
+      ],
+      "enemies":[
+        {"name":"Scarab","health":2,"damage":1}
+      ]
+    }
+  ]
+}

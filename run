@@ -1,0 +1,5 @@
+#!/bin/bash
+adv="$1"
+[ "$adv" = "" ] && adv="zulubura"
+dune build dungeon.exe --profile release; [ $? = 0 ] || exit
+./_build/default/dungeon.exe "$adv"
