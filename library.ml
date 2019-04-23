@@ -17,8 +17,8 @@ class enemy=object (self)
   method battle:unit=
     if health>0 then begin
       print_string [red] name;printf " attacks you for ";
-      print_int dmg;printf " damage\n";
-      printf "What will you do? (attack)\n";
+      print_string [red] (string_of_int dmg);printf " damage\n";
+      printf "What will you do? (";print_string [yellow] "attack";printf ")\n";
       let response=read_line() in begin
         printf "\n";
         if response="attack" then (
@@ -51,7 +51,7 @@ class room=object (self)
     else (nth next 0)#enter
 
   method enter:unit=
-    printf "You enter ";print_string [cyan] name;printf "\n";
+    if (String.length name)>0 then (printf "You enter ";print_string [cyan] name;printf "\n");
     iter (fun a -> printf "%s " a) messages;printf "\n";
     self#priority
   method priority:unit=
