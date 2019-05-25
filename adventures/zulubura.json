@@ -22,7 +22,7 @@
             "The sarcophagus creaks open, and an ancient horror emerges from it to rend you to pieces."
           ],
           "enemies":[
-            {"name":"Arisen Mummy","health":6,"damage":2}
+            {"name":"Arisen Mummy","health":3,"damage":2}
           ],
           "rooms":[
             {
@@ -30,7 +30,22 @@
               "messages":[
                 "You leave the stench of death behind you as you crouch through the low doorway into the next room.",
                 "The room's ceiling hangs much higher than the last, and a black stone obelisk with crackling purple glyphs dominates the center of the space.",
-                "You're deep into the dungeon at this point, but with a faint wind you hear a booming voice call \"Who dares disturb my slumber?\"."
+                "You're deep into the dungeon at this point, but with a faint wind you hear a booming voice call \"Who dares disturb my slumber?\".",
+                "The glyphs on the monument crackle with an even fiercer energy, and they begin to cast lightning bolts at you."
+              ],
+              "enemies":[
+                {"name":"Ancient Obelisk","health":4,"damage":3}
+              ],
+              "rooms":[
+                {
+                  "name":"treasure room",
+                  "messages":[
+                    "You notice a large crack in the wall behind the shattered remains of the sentient obelisk.",
+                    "A golden glow emanates from the damaged wall.",
+                    "With some effort you force the failing stone wall to crumble, leading to a bright room ful to the brim with golden treasures from a time long past.",
+                    "You loot all you can and buy yourself a mansion."
+                  ]
+                }
               ]
             }
           ]
@@ -44,6 +59,56 @@
       ],
       "enemies":[
         {"name":"Scarab","health":2,"damage":1}
+      ],
+      "rooms":[
+        {
+          "name":"small chamber",
+          "messages":[
+            "You get to the end of the hall and proceed into a small chamber on your left.",
+            "It is dimly lit, but torches on the wall light up as you enter.",
+            "The door slams behind you as you stare at the room's inhabitants in shock and horror.",
+            "It would seem the architects of Zulú Burá valued prehistoric beasts, as two scaly man-eating raptors stare back at you with slavering jaws agape."
+          ],
+          "enemies":[
+            {"name":"Blood-red Raptor","health":2,"damage":3},
+            {"name":"Venomhide Raptor","health":2,"damage":3}
+          ],
+          "rooms":[
+            {
+              "name":"royal burial chamber",
+              "messages":[
+                "You step over the hides of two pre-human horrors and towards the far wall.",
+                "An engraving there matches one you had seen previously in the bazaar not far from this dungeon.",
+                "It translates to \"the way shall be marked with blood\", a favorite saying of an ancient revivalist warlord infamous in the region's lore.",
+                "You walk back to the raptor carcasses and dip your hand in the pool of ruby-red blood forming beside them.",
+                "Smearing this on the engraved wall, a door open up to you. It is the ancient burial chamber of the mad king Zelpharos.",
+                "You pilfer his final belongings and live in extreme wealth for the rest of your days."
+              ]
+            }
+          ]
+        },{
+          "name":"narrow tunnel",
+          "messages":[
+            "You crawl through a small hole at the end of the hallway.",
+            "It leads through a downward tunnel that ends in a large torch-lit room about 50 feet below the room you were just in.",
+            "You cannot attempt to climb back up, for a giant serpent with madness in its eyes stares at you from the other side of the room."
+          ],
+          "enemies":[
+            {"name":"Set, God of Serpents","health":4,"damage":4}
+          ],
+          "rooms":[
+            {
+              "name":"staircase",
+              "messages":[
+                "Stairs are revealed behind a stone slab that slides from the wall behind the dead remains of the serpent god.",
+                "You follow the stairs upwards until it ends in a small room with a treasure chest.",
+                "You open the chest, freeing a small Djin.",
+                "\"Thank you,\" the Djinn says. \"Now I may return to my realm.\"",
+                "The Djinn blesses you with a charm of wealth attraction and whisks you back to your home."
+              ]
+            }
+          ]
+        }
       ]
     }
   ]

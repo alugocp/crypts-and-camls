@@ -1,7 +1,8 @@
-# Crypts & Camls
+![Logo](logo.png)
+-----
 A functional text-based dungeon crawler written in OCaml! The name is a bad play on *Dungeons & Dragons*. Play out various adventures in my custom RPG system such as:
 * **Zulú Burá**, ancient tomb of the desert kings
-* Temple of the gold god **Ahn Juné**
+* ~~Temple of the gold god **Ahn Juné**~~
 * *that's it!*
 
 Seriously, this game has it all!
