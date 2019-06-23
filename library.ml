@@ -3,64 +3,77 @@ open Printf
 open String
 open List
 
-class enemy=object (self)
-  val mutable name:string=""
-  val mutable health:int=0
-  val mutable dmg:int=0
-  method set_health n=health <- n
-  method set_name n=name <- n
-  method set_dmg n=dmg <- n
+module Enemy = struct
+  type t =
+    { name: string ;
+      health: int ;
+      dmg: int ; }
 
-  method appear:unit=
-    printf "An enemy ";print_string [red] name;printf " appeared!\n";
-    self#battle
-  method battle:unit=
-    if health>0 then begin
-      print_string [red] name;printf " attacks you for ";
-      print_string [red] (string_of_int dmg);printf " damage\n";
+  let empty = { name = "" ; health = 0 ; dmg = 0 ; }
+
+  let rec battle t : t=
+    if t.health > 0 then begin
+      print_string [red] t.name;printf " attacks you for ";
+      print_string [red] (string_of_int t.dmg);printf " damage\n";
       printf "What will you do? (";print_string [yellow] "attack";printf ")\n";
-      let response=read_line() in begin
-        printf "\n";
-        if response="attack" then (
-          health <- health+(-1);
-          printf "You did 1 damage!\n";
-          print_string [red] name;
-          if health=0 then printf " is dead!\n" else printf " has %i health left\n" health
-        ) else printf "Your attack missed\n"
-      end;
-      self#battle
-    end
+      let t =
+        let response=read_line() in begin
+          printf "\n";
+          if response="attack" then (
+            let t = {t with health = t.health - 1} in
+            printf "You did 1 damage!\n";
+            print_string [red] t.name;
+            ( if t.health=0
+              then printf " is dead!\n"
+              else printf " has %i health left\n" t.health );
+            t
+          ) else (
+            printf "Your attack missed\n" ;
+            t
+          )
+        end
+      in battle t
+    end else t
+
+  let appear t : t =
+    printf "An enemy ";print_string [red] t.name;printf " appeared!\n";
+    battle t
 end
 
-class room=object (self)
-  val mutable enemies:enemy list=[]
-  val mutable messages:string list=[]
-  val mutable rooms:room list=[]
-  val mutable name:string=""
-  method name=name
-  method set_name (n:string)=name <- n
-  method add_msg n=messages <- messages@[n]
-  method add_enemy n=enemies <- enemies@[n]
-  method add_room n=rooms <- rooms@[n]
+module Room = struct
+  type t =
+    { enemies: Enemy.t list ;
+      messages: string list ;
+      rooms: t list ;
+      name: string ; }
+  let empty = { enemies = [] ; messages = [] ; rooms = [] ;name = ""; }
+  let add_msg n t = {t with messages = t.messages@[n]}
+  let add_enemy n t= {t with enemies = t.enemies@[n]}
+  let add_room n ~parent:({rooms;_} as t) = {t with rooms = rooms@[n]}
 
-  method choose_room:unit=
-    let input=read_line() in
-    printf "\n";
-    let next=List.find_all (fun a -> equal a#name input) rooms in
-    if (length next)=0 then begin printf "That's not a room\n";self#choose_room end
-    else (nth next 0)#enter
+  let rec choose_room self :t=
+    let input=read_line() in printf "\n";
+    match List.find_opt (fun a -> equal a.name input) self.rooms with
+    | None -> printf "That's not a room\n"; choose_room self
+    | Some room -> enter room
 
-  method enter:unit=
-    if (String.length name)>0 then (printf "You enter ";print_string [cyan] name;printf "\n");
-    iter (fun a -> printf "%s " a) messages;printf "\n";
-    self#priority
-  method priority:unit=
-    if (length enemies)>0 then begin
-      (nth enemies 0)#appear;
-      enemies <- List.find_all (fun a -> a!=(nth enemies 0)) enemies;
-      self#priority
-    end else if (length rooms)>0 then begin
-      iter (fun a -> printf "You can choose to enter ";print_string [cyan] a#name;printf "\n") rooms;
-      self#choose_room
-    end
+  and priority self : t=
+    match self.enemies with
+    | [] ->
+      if self.rooms <> [] then begin
+        iter (fun a -> printf "You can choose to enter ";
+               print_string [cyan] a.name;printf "\n") self.rooms;
+        choose_room self
+      end
+      else self
+    | enemy::enemies ->
+      let self = {self with enemies} in
+      let _ = Enemy.appear enemy in
+      priority self
+
+  and enter self : t =
+    if self.name <> "" then
+      (printf "You enter ";print_string [cyan] self.name; printf "\n");
+    iter (fun a -> printf "%s " a) self.messages; printf "\n";
+    priority self
 end
