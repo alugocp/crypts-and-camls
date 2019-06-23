@@ -3,22 +3,29 @@ open Library
 open Sys
 
 let ()=
-  let parse_enemy (j:json)=match j with
-    | `Assoc obj -> let e=(new enemy) in begin List.iter (fun (a:string*json) -> match a with
-        | (k,`String v) when k="name" -> e#set_name v
-        | (k,`Int i) when k="health" -> e#set_health i
-        | (k,`Int i) when k="damage" -> e#set_dmg i
+  let parse_enemy = function
+    | `Assoc obj -> List.fold_left (fun e -> function
+        | ("name", `String name)  -> Enemy.{e with name}
+        | ("health", `Int health) -> {e with health}
+        | ("damage", `Int dmg)    -> {e with dmg}
         | _ -> raise (Yojson.Json_error "Invalid JSON")
-      ) obj;e end
+      ) Enemy.empty obj
     | _ -> raise (Yojson.Json_error "Invalid JSON") in
-  let rec parse_room (room:room) (j:json)= match j with
-    | `Assoc obj -> List.iter (fun (a:string * json) -> match a with
-      | (k,`String v) when k="name" -> room#set_name v
-      | (k,`List v) when k="messages" -> List.iter (fun (a:json) -> match a with `String s -> room#add_msg s | _ -> raise (Yojson.Json_error "Invalid JSON")) v
-      | (k,`List v) when k="rooms" -> List.iter (fun (a:json) -> room#add_room (parse_room (new room) a)) v
-      | (k,`List v) when k="enemies" -> List.iter (fun (a:json) -> room#add_enemy (parse_enemy a)) v
+  let rec parse_room (room:Room.t) = function
+    | `Assoc obj -> List.fold_left (fun room -> function
+      | ("name",`String name) -> Room.{room with name}
+      | ("messages",`List v) ->
+        List.fold_left (fun parent -> function
+            | `String s -> Room.add_msg s parent
+            | _ -> raise (Yojson.Json_error "Invalid JSON")) room v
+      | ("rooms",`List v) ->
+        List.fold_left (fun parent (a:t) ->
+            Room.add_room (parse_room Room.empty a) ~parent) room v
+      | ("enemies",`List v) ->
+        let parse_and_add r a = Room.add_enemy (parse_enemy a) r in
+        List.fold_left parse_and_add room v
       | _ -> raise (Yojson.Json_error "Invalid JSON")
-    ) obj;room
+    ) Room.empty obj
     | _ -> raise (Yojson.Json_error "Invalid JSON") in
   let j=(from_file ("adventures/"^(argv.(1))^".json")) in
-  let r=new room in (parse_room r j)#enter
+  let _ = Room.enter (parse_room Room.empty j) in ()
