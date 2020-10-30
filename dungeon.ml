@@ -2,6 +2,8 @@ open Yojson.Basic
 open Library
 open Sys
 
+type json = Yojson.Basic.t
+
 let ()=
   let parse_enemy (j:json)=match j with
     | `Assoc obj -> let e=(new enemy) in begin List.iter (fun (a:string*json) -> match a with
