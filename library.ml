@@ -1,6 +1,5 @@
 open ANSITerminal
 open Printf
-open String
 open List
 
 class enemy=object (self)
@@ -46,7 +45,7 @@ class room=object (self)
   method choose_room:unit=
     let input=read_line() in
     printf "\n";
-    let next=List.find_all (fun a -> equal a#name input) rooms in
+    let next=List.find_all (fun a -> a#name = input ) rooms in
     if (length next)=0 then begin printf "That's not a room\n";self#choose_room end
     else (nth next 0)#enter
 

@@ -1,0 +1,76 @@
+opam-version: "2.0"
+name: "crypts-and-camls"
+version: "0.0.1"
+synopsis: "Crypts-and-Camls tutorial"
+description: "crypts-and-camls"
+maintainer: "alugocp"
+authors: "alugocp"
+license: "BSD-2-Clause"
+homepage: "https://github.com/alugocp/crypts-and-camls"
+doc: "https://github.com/alugocp/crypts-and-camls"
+bug-reports: "https://github.com/alugocp/crypts-and-camls/issues"
+depends: [
+  "ANSITerminal" {= "0.8.3"}
+  "astring" {= "0.8.5" & with-doc}
+  "base-bigarray" {= "base"}
+  "base-bytes" {= "base"}
+  "base-threads" {= "base"}
+  "base-unix" {= "base"}
+  "biniou" {= "1.2.1"}
+  "cmdliner" {= "1.0.4" & with-doc}
+  "cppo" {= "1.6.8"}
+  "csexp" {= "1.5.1" & dev}
+  "dune" {= "2.9.1"}
+  "dune-build-info" {= "2.9.1" & dev}
+  "easy-format" {= "1.3.2"}
+  "fix" {= "20211125"}
+  "fmt" {= "0.9.0" & with-doc}
+  "fpath" {= "0.7.3" & with-doc}
+  "logs" {= "0.7.0" & with-doc}
+  "menhir" {= "20211128"}
+  "menhirLib" {= "20211128"}
+  "menhirSdk" {= "20211128"}
+  "merlin-extend" {= "0.6"}
+  "ocaml" {= "4.12.1"}
+  "ocaml-base-compiler" {= "4.12.1"}
+  "ocaml-config" {= "2"}
+  "ocaml-lsp-server" {= "1.9.0" & dev}
+  "ocaml-migrate-parsetree" {= "2.3.0" & with-doc}
+  "ocaml-options-vanilla" {= "1"}
+  "ocamlbuild" {= "0.14.0" & with-doc}
+  "ocamlfind" {= "1.9.1"}
+  "ocamlformat-rpc-lib" {= "0.19.0" & dev}
+  "odoc" {= "2.0.2" & with-doc}
+  "odoc-parser" {= "1.0.0" & with-doc}
+  "pp" {= "1.1.2" & dev}
+  "ppx_derivers" {= "1.2.1"}
+  "ppx_yojson_conv_lib" {= "v0.14.0" & dev}
+  "re" {= "1.10.3" & dev}
+  "reason" {= "3.7.0"}
+  "result" {= "1.5"}
+  "seq" {= "base" & dev}
+  "sexplib0" {= "v0.14.0" & dev}
+  "spawn" {= "v0.15.0" & dev}
+  "topkg" {= "1.0.4" & with-doc}
+  "tyxml" {= "4.5.0" & with-doc}
+  "uchar" {= "0.0.2" & with-doc}
+  "uutf" {= "1.0.2" & with-doc}
+  "yojson" {= "1.7.0"}
+]
+build: [
+  ["dune" "subst"] {dev}
+  [
+    "dune"
+    "build"
+    "-p"
+    name
+    "-j"
+    jobs
+    "--promote-install-files=false"
+    "@install"
+    "@runtest" {with-test}
+    "@doc" {with-doc}
+  ]
+  ["dune" "install" "-p" name "--create-install-files" name]
+]
+dev-repo: "git+https://github.com/alugocp/crypts-and-camls.git"
