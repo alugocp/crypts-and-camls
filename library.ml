@@ -1,6 +1,5 @@
 open ANSITerminal
 open Printf
-(* open String *)
 open List
 
 class enemy=object (self)

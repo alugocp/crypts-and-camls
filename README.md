@@ -19,6 +19,13 @@ Before you can run, make sure you have the `yojson` and `ANSITerminal` modules i
 opam install ANSITerminal
 opam install yojson
 ```
+or create a switch with the compiler and the required deps.
+```
+  opam switch create . 4.12.0 --deps-only --locked -y
+  <!-- or if you are on 4.12.0 -->
+    opam install . --deps-only --locked -y
+
+```
 
 ## Run
 Just use my built-in `./run <dungeon>` script to build the game in dune and run it
